@@ -4,7 +4,7 @@ window.LivewireUIModal = () => {
         showActiveComponent: true,
         activeComponent: false,
         componentHistory: [],
-        modalWidth: null ,
+        modalWidth: null,
         listeners: [],
         getActiveComponentModalAttribute(key) {
             if (this.$wire.get('components')[this.activeComponent] !== undefined) {
@@ -27,24 +27,24 @@ window.LivewireUIModal = () => {
             this.closeModal(true);
         },
         closeModal(force = false, skipPreviousModals = 0, destroySkipped = false) {
-            if(this.show === false) {
+            if (this.show === false) {
                 return;
             }
 
             if (this.getActiveComponentModalAttribute('dispatchCloseEvent') === true) {
                 const componentName = this.$wire.get('components')[this.activeComponent].name;
-                Livewire.dispatch('modalClosed', {name: componentName});
+                Livewire.dispatch('modalClosed', { name: componentName });
             }
 
             if (this.getActiveComponentModalAttribute('destroyOnClose') === true) {
-                Livewire.dispatch('destroyComponent', {id: this.activeComponent});
+                Livewire.dispatch('destroyComponent', { id: this.activeComponent });
             }
 
             if (skipPreviousModals > 0) {
                 for (var i = 0; i < skipPreviousModals; i++) {
                     if (destroySkipped) {
                         const id = this.componentHistory[this.componentHistory.length - 1];
-                        Livewire.dispatch('destroyComponent', {id: id});
+                        Livewire.dispatch('destroyComponent', { id: id });
                     }
                     this.componentHistory.pop();
                 }
@@ -84,11 +84,11 @@ window.LivewireUIModal = () => {
 
                 focusableTimeout = 400;
 
-                setTimeout(() => {
-                    this.activeComponent = id;
-                    this.showActiveComponent = true;
-                    this.modalWidth = this.getActiveComponentModalAttribute('maxWidthClass');
-                }, 300);
+                // setTimeout(() => {
+                this.activeComponent = id;
+                this.showActiveComponent = true;
+                this.modalWidth = this.getActiveComponentModalAttribute('maxWidthClass');
+                // }, 300);
             }
 
             this.$nextTick(() => {
@@ -132,10 +132,10 @@ window.LivewireUIModal = () => {
             } else {
                 document.body.classList.remove('overflow-y-hidden');
 
-                setTimeout(() => {
-                    this.activeComponent = false;
-                    this.$wire.resetState();
-                }, 300);
+                // setTimeout(() => {
+                this.activeComponent = false;
+                this.$wire.resetState();
+                // }, 300);
             }
         },
         init() {
@@ -148,7 +148,7 @@ window.LivewireUIModal = () => {
             );
 
             this.listeners.push(
-                Livewire.on('activeModalComponentChanged', ({id}) => {
+                Livewire.on('activeModalComponentChanged', ({ id }) => {
                     this.setActiveModalComponent(id);
                 })
             );
